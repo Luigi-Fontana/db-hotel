@@ -1,0 +1,2 @@
+SELECT SUM(`beds`) AS `totale_letti`
+FROM `stanze`;
