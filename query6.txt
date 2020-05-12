@@ -1,0 +1,4 @@
+SELECT `price` AS `massimo`
+FROM `pagamenti`
+ORDER BY `price` DESC
+LIMIT 1;
