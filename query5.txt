@@ -1,0 +1,3 @@
+SELECT `status`, SUM(`price`) AS `totale`
+FROM `pagamenti`
+WHERE `status` = 'accepted';
