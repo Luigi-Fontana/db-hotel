@@ -1,3 +1,0 @@
-SELECT *
-FROM `ospiti`
-WHERE `document_type` = 'Driver License' AND `date_of_birth` LIKE '1975%';

@@ -1,3 +1,0 @@
-SELECT *
-FROM `ospiti`
-WHERE `date_of_birth` > '1988';
