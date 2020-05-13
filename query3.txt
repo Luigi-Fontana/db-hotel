@@ -1,1 +1,49 @@
+1) Come si chiamano gli ospiti che hanno fatto più di due prenotazioni?
 
+SELECT `ospiti`.`name`, COUNT(`prenotazioni_has_ospiti`.`id`) AS `numero_prenotazioni` FROM `prenotazioni_has_ospiti`
+INNER JOIN `ospiti`
+ON `ospiti`.`id` = `prenotazioni_has_ospiti`.`ospite_id`
+GROUP BY `ospiti`.`name`
+HAVING `numero_prenotazioni` > 2;
+
+2) Stampare tutti gli ospiti per ogni prenotazione
+
+SELECT `prenotazioni_has_ospiti`.`id` AS `id_prenotazione`, `ospiti`.`name`, `ospiti`.`lastname` FROM `ospiti`
+INNER JOIN `prenotazioni_has_ospiti`
+ON `ospiti`.`id` = `prenotazioni_has_ospiti`.`ospite_id`
+ORDER BY `id_prenotazione`;
+
+3) Stampare Nome, Cognome, Prezzo e Pagante per tutte le prenotazioni fatte a Maggio 2018
+
+SELECT `paganti`.`name`, `paganti`.`lastname`, `pagamenti`.`price` FROM `paganti`
+INNER JOIN `pagamenti`
+ON `paganti`.id = `pagamenti`.`pagante_id`
+INNER JOIN `prenotazioni`
+ON `prenotazioni`.`id` = `pagamenti`.`prenotazione_id`
+WHERE `prenotazioni`.`created_at` LIKE '2018-05-%';
+
+4) Fai la somma di tutti i prezzi delle prenotazioni per le stanze del primo piano
+
+SELECT `stanze`.`floor`, SUM(`pagamenti`.`price`) AS `totale_pagamenti` FROM `stanze`
+INNER JOIN `prenotazioni`
+ON `stanze`.`id` = `prenotazioni`.`stanza_id`
+INNER JOIN `pagamenti`
+ON `prenotazioni`.`id` = `pagamenti`.`prenotazione_id`
+GROUP BY `stanze`.`floor`
+HAVING `stanze`.`floor` = 1;
+
+5) Prendi i dati di fatturazione per la prenotazione con id=7
+
+SELECT `prenotazioni`.`id` AS `id_prenotazione`,`pagamenti`.`created_at` AS `data`, `pagamenti`.`status`, `pagamenti`.`price`, `paganti`.`name`, `paganti`.`lastname` FROM `prenotazioni`
+INNER JOIN `pagamenti`
+ON `prenotazioni`.`id` = `pagamenti`.`prenotazione_id`
+INNER JOIN `paganti`
+ON `paganti`.`id` = `pagamenti`.`pagante_id`
+WHERE `prenotazioni`.`id` = 7;
+
+6) Le stanze sono state tutte prenotate almeno una volta? (Visualizzare le stanze non ancora prenotate)
+
+SELECT `stanze`.`id`, `stanze`.`room_number` FROM `stanze`
+LEFT JOIN `prenotazioni`
+ON `stanze`.`id` = `prenotazioni`.`stanza_id`
+WHERE `prenotazioni`.`stanza_id` IS NULL;
